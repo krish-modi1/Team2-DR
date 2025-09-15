@@ -7,16 +7,23 @@ class MinimaxPlayer:
 
     def get_move(self, game):
         # We'll use a minimax algorithm to find the best move
-        if len(game.available_moves()) == 9:
+        print(f"AI ({self.letter}) evaluating move...")
+        # On an empty board, many opening moves are strategically identical
+        if len(game.available_moves()) == game.size * game.size:
             # For the very first move, just pick a random square
             import random
             square = random.choice(game.available_moves())
+            print(f"AI ({self.letter}) chooses random opening move: {square}")
         else:
             # Call the minimax algorithm to get the best square
-            square = self.minimax(game, self.letter)['square']
+            result = self.minimax(game, self.letter)
+            square = result['square']
+            print(f"AI ({self.letter}) chooses move: {square} with score: {result['score']}")
         return square
 
-    def minimax(self, state, player):
+    def minimax(self, state, player, alpha=-math.inf, beta=math.inf):
+        # Debug print for recursion depth and player
+        print(f"Minimax called for player {player}, alpha={alpha}, beta={beta}, available moves={len(state.available_moves())}")
         # The 'state' is the current game object
         # The 'player' is the letter of the current player ('X' or 'O')
         max_player = self.letter  # The AI player
@@ -47,7 +54,7 @@ class MinimaxPlayer:
 
             # 2. Use recursion to simulate the game after that move
             #    by calling minimax for the *other player*
-            sim_score = self.minimax(state, other_player)
+            sim_score = self.minimax(state, other_player, alpha, beta)
 
             # 3. CRITICAL: Undo the move to explore other possibilities
             state.board[possible_move[0]][possible_move[1]] = ' '
@@ -60,9 +67,15 @@ class MinimaxPlayer:
             if player == max_player:  # Maximizing player
                 if sim_score['score'] > best['score']:
                     best = sim_score
+                alpha = max(alpha, best['score'])
             else:  # Minimizing player
                 if sim_score['score'] < best['score']:
                     best = sim_score
+                beta = min(beta, best['score'])
+            
+            # Alpha-beta pruning
+            if beta <= alpha:
+                break
         
         return best
 
