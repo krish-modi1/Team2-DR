@@ -138,7 +138,7 @@ class TicTacToe:
         Display the current board state in a human-readable format.
         Useful for debugging and visualization.
         """
-        symbols = {1: 'X', -1: 'O', 0: '.'}
+        symbols = {1: 'X', -1: 'O', 0: '_'}
         print("Current Board:")
         for row in self.board:
             print(' '.join(symbols[cell] for cell in row))

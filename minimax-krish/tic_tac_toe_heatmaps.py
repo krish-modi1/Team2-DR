@@ -1,13 +1,3 @@
-"""
-Heatmap and Probability Visualization for 3x3 Tic-Tac-Toe Minimax Analysis
-===========================================================================
-This file generates heatmaps and probability visualizations from the JSON data
-created by the complete 3x3 Tic-Tac-Toe minimax analysis.
-
-Author: Generated for USC Viterbi Student  
-Date: September 15, 2025
-"""
-
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
