@@ -230,5 +230,5 @@ def demo(n: int, k: Optional[int] = None, depth_limit: Optional[int] = None):
 if __name__ == "__main__":
     # Examples:
     demo(3)              # classic 3x3, 3-in-a-row
-    demo(4)              # 4x4, 4-in-a-row (exact solve may be large)
-    demo(5, depth_limit=4)  # 5x5 with a cutoff + heuristic
+    # demo(4)              # 4x4, 4-in-a-row (exact solve may be large)
+    # demo(5, depth_limit=4)  # 5x5 with a cutoff + heuristic

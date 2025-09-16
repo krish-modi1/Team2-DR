@@ -1,0 +1,10 @@
+first_move,first_move_row,first_move_col,first_move_type,num_best_O,best_O_moves,value_after_O_best
+0,0,0,corner,1,[4],0
+1,0,1,edge,4,"[0, 2, 4, 7]",0
+2,0,2,corner,1,[4],0
+3,1,0,edge,4,"[0, 4, 5, 6]",0
+4,1,1,center,4,"[0, 2, 6, 8]",0
+5,1,2,edge,4,"[2, 3, 4, 8]",0
+6,2,0,corner,1,[4],0
+7,2,1,edge,4,"[1, 4, 6, 8]",0
+8,2,2,corner,1,[4],0
