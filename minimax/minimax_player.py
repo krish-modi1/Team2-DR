@@ -7,7 +7,7 @@ class MinimaxPlayer:
 
     def get_move(self, game):
         # We'll use a minimax algorithm to find the best move
-        print(f"AI ({self.letter}) evaluating move...")
+        # print(f"AI ({self.letter}) evaluating move...")
         # On an empty board, many opening moves are strategically identical
         if len(game.available_moves()) == game.size * game.size:
             # For the very first move, just pick a random square
@@ -21,9 +21,10 @@ class MinimaxPlayer:
             print(f"AI ({self.letter}) chooses move: {square} with score: {result['score']}")
         return square
 
+    
     def minimax(self, state, player, alpha=-math.inf, beta=math.inf):
         # Debug print for recursion depth and player
-        print(f"Minimax called for player {player}, alpha={alpha}, beta={beta}, available moves={len(state.available_moves())}")
+        # print(f"Minimax called for player {player}, alpha={alpha}, beta={beta}, available moves={len(state.available_moves())}")
         # The 'state' is the current game object
         # The 'player' is the letter of the current player ('X' or 'O')
         max_player = self.letter  # The AI player
@@ -78,8 +79,31 @@ class MinimaxPlayer:
                 break
         
         return best
+    
+    def get_move_with_scores(self, game):
+        # If the board is empty, handle it as a special case
+        if len(game.available_moves()) == game.size * game.size:
+            import random
+            move = random.choice(game.available_moves())
+            # Return a neutral score for all moves on an empty board
+            scores = {m: 0 for m in game.available_moves()}
+            return move, scores
 
-        # Add this class to 'minimax_player.py'
+        # Otherwise, calculate the score for every possible move
+        scores = {}
+        for possible_move in game.available_moves():
+            # 1. Make the move
+            game.make_move(possible_move, self.letter)
+            # 2. Get the score for the resulting board from the opponent's view
+            score = self.minimax(game, 'O' if self.letter == 'X' else 'X')['score']
+            # 3. UNDO THE MOVE
+            game.board[possible_move[0]][possible_move[1]] = ' '
+            game.current_winner = None
+            scores[possible_move] = score
+
+        # Find the best move from the calculated scores
+        best_move = max(scores, key=scores.get)
+        return best_move, scores
 
 class HumanPlayer:
     def __init__(self, letter):
