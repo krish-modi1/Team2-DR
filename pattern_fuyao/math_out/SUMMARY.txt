@@ -1,0 +1,29 @@
+Math-patterns summary (data-only)
+=================================
+Samples: 627
+
+[D4 irrep energy fractions]
+  A1: 0.437
+  A2: 0.000
+  B1: 0.089
+  B2: 0.093
+  E: 0.380
+
+[PCA explained variance]
+  PC1: 0.298
+  PC2: 0.149
+  PC3: 0.126
+  PC4: 0.114
+  PC5: 0.106
+
+[Orbit means]
+  center_mean: 0.5956
+  edge_mean: 0.3946
+  corner_mean: 0.4939
+
+[Orbit variances]
+  center_var: 0.0484
+  edge_var: 0.0427
+  corner_var: 0.0469
+
+See PNGs for eigenpatterns and E-subspace directions.
