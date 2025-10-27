@@ -1,0 +1,215 @@
+#!/usr/bin/env python3
+"""
+Generate interactive scatter plots for P(X wins), P(O wins), and P(draws)
+against game layer from a CSV file, with hover highlighting of tree paths.
+
+Usage:
+    python3 scatter_plots.py probabilities.csv
+"""
+
+import sys
+import pandas as pd
+import json
+import os
+
+def build_paths(tree):
+    """Build paths from root to each state in the game tree."""
+    paths = {}
+    def dfs(state_list, current_path):
+        # Convert state list to CSV format (e.g., [0,0,1,-1,1] -> "001-11")
+        parts = []
+        for x in state_list:
+            if x == -1:
+                parts.append('-1')
+            else:
+                parts.append(str(x))
+        csv_str = ''.join(parts)
+        
+        current_path = current_path + [csv_str]
+        paths[csv_str] = current_path[:]
+        if tree[str(state_list)]['terminal']:
+            return
+        for move, next_state in tree[str(state_list)]['moves']:
+            dfs(next_state, current_path)
+    root = [0] * 9
+    dfs(root, [])
+    return paths
+
+def plot_scatter_interactive(df, y_col, title, output_path):
+    """Create interactive scatter plot with tree path highlighting on hover."""
+    # Load tree and build paths
+    with open('tic_tac_toe_3x3_complete_tree.json') as f:
+        tree_data = json.load(f)
+    path_dict = build_paths(tree_data['tree'])
+    
+    # Create lookup maps
+    state_lookup = {}
+    for idx, row in df.iterrows():
+        state_lookup[row['state']] = {'layer': int(row['layer']), 'y': round(float(row[y_col]), 3)}
+    
+    # Precompute path coordinates ONLY (lightweight - just numbers, no state info)
+    path_coords_compact = {}
+    for state in df['state'].unique():
+        if state in path_dict:
+            path = path_dict[state]
+            x_list = []
+            y_list = []
+            for ps in path:
+                if ps in state_lookup:
+                    x_list.append(state_lookup[ps]['layer'])
+                    y_list.append(state_lookup[ps]['y'])
+            if x_list:
+                # Compact format: encode as interleaved values
+                path_coords_compact[state] = [x_list, y_list]
+    
+    # Prepare minimal data for plotting
+    plot_x = df['layer'].tolist()
+    plot_y = df[y_col].tolist()
+    plot_states = df['state'].tolist()
+    
+    # Create path descriptions for hover text
+    plot_paths = []
+    for state in plot_states:
+        if state in path_dict:
+            path = path_dict[state]
+            path_str = ' → '.join(path)
+        else:
+            path_str = state
+        plot_paths.append(path_str)
+    
+    # Convert to JSON
+    plot_data_json = json.dumps({'x': plot_x, 'y': plot_y, 'states': plot_states, 'paths': plot_paths})
+    path_coords_json = json.dumps(path_coords_compact)
+    y_col_json = json.dumps(y_col)
+    title_json = json.dumps(title)
+    
+    # Create custom HTML - with SVG overlay and path tooltip
+    html_template = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+    <style>
+        body {{ font-family: Arial, sans-serif; margin: 20px; }}
+        #container {{ position: relative; display: inline-block; width: 100%; }}
+        #plot {{ width: 100%; }}
+        #pathOverlay {{ position: absolute; top: 0; left: 0; pointer-events: none; }}
+        #pathTooltip {{ 
+            position: absolute; 
+            background: rgba(0, 0, 0, 0.85); 
+            color: #fff; 
+            padding: 10px 12px; 
+            border-radius: 4px; 
+            font-size: 12px;
+            font-family: monospace;
+            z-index: 1000;
+            max-width: 500px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+            pointer-events: none;
+            word-break: break-all;
+            line-height: 1.4;
+        }}
+        #info {{ font-size: 12px; color: #666; }}
+    </style>
+</head>
+<body>
+    <h2>{title} vs Game Layer</h2>
+    <div id='info'><small>Hover over points to see tree path highlighted in red. Popup shows the full sequence of states.</small></div>
+    <div id='container'>
+        <div id='plot' style='width:100%;height:600px;'></div>
+        <svg id='pathOverlay' style='position:absolute;top:0;left:0;width:100%;height:600px;pointer-events:none;'></svg>
+        <div id='pathTooltip'></div>
+    </div>
+    <script>
+        var plotData = {plot_data_json};
+        var pathCoords = {path_coords_json};
+        var yCol = {y_col_json};
+        var title = {title_json};
+        var trace1 = {{
+            x: plotData.x,
+            y: plotData.y,
+            mode: 'markers',
+            name: 'States',
+            marker: {{color: 'rgba(70, 130, 180, 0.7)', size: 6}},
+            text: plotData.states,
+            customdata: plotData.paths,
+            hovertemplate: '<b>Current State:</b> %{{text}}<br><b>Layer:</b> %{{x}}<br><b>' + yCol + ':</b> %{{y:.4f}}<br><b>Full Path:</b><br>%{{customdata}}<extra></extra>'
+        }};
+        var layout = {{
+            title: title + ' vs Layer',
+            xaxis: {{title: 'Game Layer (depth)', zeroline: false}},
+            yaxis: {{title: title, range: [-0.05, 1.05], zeroline: false}},
+            hovermode: 'closest',
+            height: 600,
+            margin: {{l: 70, r: 40, t: 60, b: 60}},
+            plot_bgcolor: '#f8f9fa',
+            paper_bgcolor: 'white'
+        }};
+        Plotly.newPlot('plot', [trace1], layout, {{responsive: true, displayModeBar: false}});
+        var plotDiv = document.getElementById('plot');
+        var svg = document.getElementById('pathOverlay');
+        
+        function convertToPixels(xVal, yVal) {{
+            var xaxis = plotDiv._fullLayout.xaxis;
+            var yaxis = plotDiv._fullLayout.yaxis;
+            var px = xaxis.l2p(xVal) + xaxis._offset;
+            var py = yaxis.l2p(yVal) + yaxis._offset;
+            return {{x: px, y: py}};
+        }}
+        
+        plotDiv.on('plotly_hover', function(eventData) {{
+            var point = eventData.points[0];
+            var stateIdx = point.pointNumber;
+            var state = plotData.states[stateIdx];
+            if (state in pathCoords) {{
+                var coords = pathCoords[state];
+                var pathData = '';
+                for (var i = 0; i < coords[0].length; i++) {{
+                    var pxl = convertToPixels(coords[0][i], coords[1][i]);
+                    if (i === 0) {{
+                        pathData += 'M' + pxl.x + ' ' + pxl.y;
+                    }} else {{
+                        pathData += 'L' + pxl.x + ' ' + pxl.y;
+                    }}
+                }}
+                svg.innerHTML = '<path d="' + pathData + '" stroke="#FF6B6B" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" />';
+            }}
+        }});
+        plotDiv.on('plotly_unhover', function(eventData) {{
+            svg.innerHTML = '';
+        }});
+    </script>
+</body>
+</html>"""
+    
+    with open(output_path, 'w') as f:
+        f.write(html_template)
+    
+    print(f'Saved: {output_path} ({len(path_coords_compact)} paths precomputed)')
+
+def main():
+    if len(sys.argv) < 2:
+        print('Usage: python scatter_plots.py probabilities.csv')
+        sys.exit(1)
+
+    csv_file = sys.argv[1]
+    df = pd.read_csv(csv_file)
+
+    # Ensure output directory exists
+    output_dir = 'plots'
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Plot definitions
+    plots = [
+        ('P(X wins)', 'P(X wins)', os.path.join(output_dir, 'scatter_PX_wins.html')),
+        ('P(O wins)', 'P(O wins)', os.path.join(output_dir, 'scatter_PO_wins.html')),
+        ('P(draws)', 'P(draws)', os.path.join(output_dir, 'scatter_P_draws.html')),
+    ]
+
+    for y_col, title, out_path in plots:
+        plot_scatter_interactive(df, y_col, title, out_path)
+
+if __name__ == '__main__':
+    main()
