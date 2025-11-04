@@ -1,0 +1,291 @@
+STATE-POSITION PROBABILITY PATTERN ANALYSIS
+======================================================================
+
+POSITION 0 (0,0) - CORNER
+----------------------------------------------------------------------
+Total unique states: 1818
+
+P(X wins) Statistics:
+  Mean:       0.561421
+  Median:     0.533333
+  Std Dev:    0.326402
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 1, -1, 0, -1, 0, 0, 1, 0]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, 1, 0, -1, -1, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002347 (8 states)
+  Layer 2: variance = 0.011689 (56 states)
+  Layer 3: variance = 0.024658 (168 states)
+  Layer 4: variance = 0.055385 (420 states)
+  Layer 5: variance = 0.090334 (510 states)
+  Layer 6: variance = 0.140625 (464 states)
+  Layer 7: variance = 0.235688 (163 states)
+  Layer 8: variance = 0.218112 (28 states)
+
+======================================================================
+
+POSITION 1 (0,1) - EDGE
+----------------------------------------------------------------------
+Total unique states: 1753
+
+P(X wins) Statistics:
+  Mean:       0.563210
+  Median:     0.533333
+  Std Dev:    0.313938
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 0, 0, 0, -1, 0, -1, 1, 1]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, 1, 0, -1, 1, -1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002232 (8 states)
+  Layer 2: variance = 0.009890 (56 states)
+  Layer 3: variance = 0.021799 (168 states)
+  Layer 4: variance = 0.050775 (420 states)
+  Layer 5: variance = 0.085851 (500 states)
+  Layer 6: variance = 0.139122 (444 states)
+  Layer 7: variance = 0.249790 (138 states)
+  Layer 8: variance = 0.250000 (18 states)
+
+======================================================================
+
+POSITION 2 (0,2) - CORNER
+----------------------------------------------------------------------
+Total unique states: 1818
+
+P(X wins) Statistics:
+  Mean:       0.561421
+  Median:     0.533333
+  Std Dev:    0.326402
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [-1, 1, 0, 0, -1, 0, 0, 1, 0]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, 0, 1, -1, -1, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002347 (8 states)
+  Layer 2: variance = 0.011689 (56 states)
+  Layer 3: variance = 0.024658 (168 states)
+  Layer 4: variance = 0.055385 (420 states)
+  Layer 5: variance = 0.090334 (510 states)
+  Layer 6: variance = 0.140625 (464 states)
+  Layer 7: variance = 0.235688 (163 states)
+  Layer 8: variance = 0.218112 (28 states)
+
+======================================================================
+
+POSITION 3 (1,0) - EDGE
+----------------------------------------------------------------------
+Total unique states: 1753
+
+P(X wins) Statistics:
+  Mean:       0.563210
+  Median:     0.533333
+  Std Dev:    0.313938
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 0, -1, 0, -1, 1, 0, 0, 1]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [1, 0, 0, 0, 0, 0, 1, -1, -1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002232 (8 states)
+  Layer 2: variance = 0.009890 (56 states)
+  Layer 3: variance = 0.021799 (168 states)
+  Layer 4: variance = 0.050775 (420 states)
+  Layer 5: variance = 0.085851 (500 states)
+  Layer 6: variance = 0.139122 (444 states)
+  Layer 7: variance = 0.249790 (138 states)
+  Layer 8: variance = 0.250000 (18 states)
+
+======================================================================
+
+POSITION 4 (1,1) - CENTER
+----------------------------------------------------------------------
+Total unique states: 1883
+
+P(X wins) Statistics:
+  Mean:       0.558520
+  Median:     0.500000
+  Std Dev:    0.341635
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 0, 1, 0, 0, -1, 1, -1, 1]
+    Layer: 5, P(X wins): 0.000000
+
+  Best state for X:  [0, -1, 1, 0, 0, 0, 0, -1, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.001275 (8 states)
+  Layer 2: variance = 0.006818 (56 states)
+  Layer 3: variance = 0.021614 (168 states)
+  Layer 4: variance = 0.045677 (420 states)
+  Layer 5: variance = 0.082505 (520 states)
+  Layer 6: variance = 0.119391 (484 states)
+  Layer 7: variance = 0.200091 (188 states)
+  Layer 8: variance = 0.166205 (38 states)
+
+======================================================================
+
+POSITION 5 (1,2) - EDGE
+----------------------------------------------------------------------
+Total unique states: 1753
+
+P(X wins) Statistics:
+  Mean:       0.563210
+  Median:     0.533333
+  Std Dev:    0.313938
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 0, -1, 1, -1, 0, 0, 0, 1]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 1, 0, 0, 0, -1, -1, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002232 (8 states)
+  Layer 2: variance = 0.009890 (56 states)
+  Layer 3: variance = 0.021799 (168 states)
+  Layer 4: variance = 0.050775 (420 states)
+  Layer 5: variance = 0.085851 (500 states)
+  Layer 6: variance = 0.139122 (444 states)
+  Layer 7: variance = 0.249790 (138 states)
+  Layer 8: variance = 0.250000 (18 states)
+
+======================================================================
+
+POSITION 6 (2,0) - CORNER
+----------------------------------------------------------------------
+Total unique states: 1818
+
+P(X wins) Statistics:
+  Mean:       0.561421
+  Median:     0.533333
+  Std Dev:    0.326402
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 1, 0, 0, -1, 0, 0, 1, -1]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, -1, -1, 0, 1, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002347 (8 states)
+  Layer 2: variance = 0.011689 (56 states)
+  Layer 3: variance = 0.024658 (168 states)
+  Layer 4: variance = 0.055385 (420 states)
+  Layer 5: variance = 0.090334 (510 states)
+  Layer 6: variance = 0.140625 (464 states)
+  Layer 7: variance = 0.235688 (163 states)
+  Layer 8: variance = 0.218112 (28 states)
+
+======================================================================
+
+POSITION 7 (2,1) - EDGE
+----------------------------------------------------------------------
+Total unique states: 1753
+
+P(X wins) Statistics:
+  Mean:       0.563210
+  Median:     0.533333
+  Std Dev:    0.313938
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 1, 0, 0, -1, 0, -1, 0, 1]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, -1, -1, 1, 0, 1]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002232 (8 states)
+  Layer 2: variance = 0.009890 (56 states)
+  Layer 3: variance = 0.021799 (168 states)
+  Layer 4: variance = 0.050775 (420 states)
+  Layer 5: variance = 0.085851 (500 states)
+  Layer 6: variance = 0.139122 (444 states)
+  Layer 7: variance = 0.249790 (138 states)
+  Layer 8: variance = 0.250000 (18 states)
+
+======================================================================
+
+POSITION 8 (2,2) - CORNER
+----------------------------------------------------------------------
+Total unique states: 1818
+
+P(X wins) Statistics:
+  Mean:       0.561421
+  Median:     0.533333
+  Std Dev:    0.326402
+  Min:        0.000000
+  Max:        1.000000
+  Range:      1.000000
+
+Extreme States:
+  Worst state for X: [0, 1, 0, 0, -1, 0, -1, 1, 0]
+    Layer: 4, P(X wins): 0.000000
+
+  Best state for X:  [0, 0, 0, 0, -1, -1, 1, 1, 0]
+    Layer: 4, P(X wins): 1.000000
+
+Variance by Layer:
+  Layer 0: variance = 0.000000 (1 states)
+  Layer 1: variance = 0.002347 (8 states)
+  Layer 2: variance = 0.011689 (56 states)
+  Layer 3: variance = 0.024658 (168 states)
+  Layer 4: variance = 0.055385 (420 states)
+  Layer 5: variance = 0.090334 (510 states)
+  Layer 6: variance = 0.140625 (464 states)
+  Layer 7: variance = 0.235688 (163 states)
+  Layer 8: variance = 0.218112 (28 states)
+
+======================================================================
+
