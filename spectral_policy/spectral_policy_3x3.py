@@ -426,11 +426,11 @@ def visualize_one_game(policy: SpectralPolicy3x3, opponent, first: str='policy',
     print('Result:', 'X wins' if w==1 else ('O wins' if w==-1 else 'Draw'))
     return w
 
-def visualize_first_outcomes(policy: SpectralPolicy3x3, opponent_kind: str, max_seeds: int, topk:int=5):
-    print(f"\n=== Searching first W/D/L examples vs {opponent_kind.capitalize()} (up to {max_seeds} seeds) ===")
+def visualize_first_outcomes(policy: SpectralPolicy3x3, opponent_kind: str, max_seeds: int, topk:int=5, start_seed:int=0):
+    print(f"\n=== Searching first W/D/L examples vs {opponent_kind.capitalize()} (up to {max_seeds} seeds, start_seed={start_seed}) ===")
     opp = RandomPlayer3x3() if opponent_kind=='random' else PerfectPlayer3x3()
     first_seen = {'W': None, 'D': None, 'L': None}
-    for s in range(max_seeds):
+    for s in range(start_seed, start_seed+max_seeds):
         # Try policy first perspective
         random.seed(s)
         g=TicTacToe3x3()
@@ -522,6 +522,7 @@ def main():
     parser.add_argument('--games-perfect', type=int, default=50, help='Number of games vs Perfect to play in evaluation block (alternating first).')
     parser.add_argument('--no-examples', action='store_true', help='Disable visualization of first win/draw/loss examples.')
     parser.add_argument('--seed', type=int, default=None, help='Set global random seed for reproducibility.')
+    parser.add_argument('--self-play', type=int, default=0, help='Number of self-play games (policy vs itself).')
     args = parser.parse_args()
 
     print('Building dataset from exhaustive tree...')
@@ -621,18 +622,31 @@ def main():
             else: los+=1
         line_perfect = f"Vs Perfect ({args.games_perfect} alt): W:{wns} D:{drw} L:{los}"
         print(f"\n{line_random}\n{line_perfect}")
+        # Self-play
+        if args.self_play > 0:
+            wns=drw=los=0
+            for i in range(args.self_play):
+                # alternate first
+                if i%2==0:
+                    r=play_game(policy, policy)
+                else:
+                    r=play_game(policy, policy)
+                if r==1: wns+=1
+                elif r==0: drw+=1
+                else: los+=1
+            print(f"Self-play ({args.self_play}): W:{wns} D:{drw} L:{los}")
         if not args.no_examples:
             # Visualize first W/D/L examples vs Random
-            visualize_first_outcomes(policy, 'random', max_seeds=args.games_random, topk=args.topk)
+            visualize_first_outcomes(policy, 'random', max_seeds=args.games_random, topk=args.topk, start_seed=(args.seed or 0))
             # Visualize one (draw) example vs Perfect
-            visualize_first_outcomes(policy, 'perfect', max_seeds=1, topk=args.topk)
+            visualize_first_outcomes(policy, 'perfect', max_seeds=1, topk=args.topk, start_seed=(args.seed or 0))
 
     # Visualization of one game if requested
     if args.show_game:
         policy = SpectralPolicy3x3(w, sym_avg=args.sym_avg, safety=(not args.no_safety))
         opp = RandomPlayer3x3() if args.show_game=='random' else PerfectPlayer3x3()
         # Show policy first vs requested opponent
-        visualize_one_game(policy, opp, first='policy', topk=args.topk, seed=0)
+        visualize_one_game(policy, opp, first='policy', topk=args.topk, seed=(args.seed or 0))
 
 if __name__=='__main__':
     main()

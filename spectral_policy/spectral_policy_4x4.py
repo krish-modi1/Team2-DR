@@ -423,6 +423,7 @@ def main():
     ap.add_argument('--mcts-iters', type=int, default=200, help='MCTS iterations per move')
     ap.add_argument('--seed', type=int, default=0, help='Global seed')
     ap.add_argument('--no-examples', action='store_true', help='Disable visualization example')
+    ap.add_argument('--self-play', type=int, default=0, help='Number of self-play games (policy vs itself).')
     args=ap.parse_args()
 
     random.seed(args.seed)
@@ -451,6 +452,15 @@ def main():
         elif r==0: draws+=1
         else: loss+=1
     print(f"\nVs Random ({args.games_random}): W:{wins} D:{draws} L:{loss}")
+    # Self-play
+    if args.self_play > 0:
+        wins=draws=loss=0
+        for i in range(args.self_play):
+            r=play_game(policy, policy, n)
+            if r==1: wins+=1
+            elif r==0: draws+=1
+            else: loss+=1
+        print(f"Self-play ({args.self_play}): W:{wins} D:{draws} L:{loss}")
 
     if args.games_mcts > 0:
         # Eval vs MCTS
