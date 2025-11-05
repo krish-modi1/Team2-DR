@@ -125,6 +125,7 @@ s(\phi) = w^\top \phi
 $$
 
 Ridge regression (closed form):
+
 $$
 \min_w \; \|Xw - y\|_2^2 + \lambda \|w\|_2^2 \quad \Rightarrow \quad w = (X^\top X + \lambda I)^{-1} X^\top y
 $$
@@ -424,3 +425,4 @@ Edge cases handled:
 ## Conclusion
 
 This project shows that interpretable spectral patterns can match or outperform neural network policies for Tic-Tac-Toe, with full transparency and mathematical rigor. The approach is general, fast, and ideal for teaching, benchmarking, or as a strong baseline for more complex games.
+
